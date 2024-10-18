@@ -5,7 +5,6 @@ import './App.css'
 import championsData from './Data/Champions.json'
 
 
-
 function App() {
   const [role, setRole] = useState(2);
   const [rankBracket, setRankBracket] = useState(1);
@@ -31,6 +30,10 @@ function App() {
     return hero ? hero.name : "Unknown";
   };
 
+  const getHeroIconById = (heroId) => {
+    const hero = championsData.champions_data.find((champion) => champion.heroId === Number(heroId));
+    return hero ? <img src={hero.icon} width="50" height="50" alt={hero.icon}/> : "Image not found";
+  };
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -126,22 +129,22 @@ function App() {
       <table style={{ width: '1000px' }}>
         <thead>
           <tr className="tableHeader">
-            <th style={{ width: '5em' }}>Rank</th>
-            <th style={{ width: '15em' }}>Hero</th>
-            <th style={{ width: '10em' }}>Position</th>
-            <th style={{ width: '8em' }}>Winrate</th>
-            <th style={{ width: '8em' }}>Pickrate</th>
-            <th style={{ width: '8em' }}>Banrate</th>
+            <th style={{ width: '3em' }}>Rank</th>
+            <th style={{ width: '3em' }}></th>
+            <th style={{ width: '5em'}}>Champion</th>
+            <th style={{ width: '5em' }}>Winrate</th>
+            <th style={{ width: '5em' }}>Pickrate</th>
+            <th style={{ width: '5em' }}>Banrate</th>
           </tr>
         </thead>
         
         <tbody>
           {heroData && (
-            Object.values(heroData[rankBracket][role]).map((hero, index) => (
+            Object.values(heroData[rankBracket][role]).map((hero, index) => ( 
               <tr key={hero.hero_id}>
                 <td>{index + 1}</td>
-                <td style={{ wordBreak: 'break-all' }}>{getHeroNameById(hero.hero_id)}</td>  {/* Assuming hero_name or fallback to hero_id */}
-                <td>{lanes[role]}</td>  
+                <td>{getHeroIconById(hero.hero_id)}</td>
+                <td style={{textAlign: 'left', marginLeft: '3em'}}>{getHeroNameById(hero.hero_id)}</td>
                 <td>{hero.win_rate_percent}%</td>
                 <td>{hero.appear_rate_percent}%</td>
                 <td>{hero.forbid_rate_percent}%</td>

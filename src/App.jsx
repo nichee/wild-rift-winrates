@@ -2,20 +2,35 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import championsData from './Data/Champions.json'
+
+
 
 function App() {
-  const [role, setRole] = useState("Baron")
+  const [role, setRole] = useState(2);
+  const [rankBracket, setRankBracket] = useState(1);
   const [heroData, setHeroData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const lanes = {
-    2: "Baron lane",
+    2: "Baron",
     5: "Jungle",
     1: "Middle",
-    3: "Duo",
+    3: "Carry",
     4: "Support",
   };
+  const ranks = {
+    1: "Diamond",
+    2: "Master",
+    3: "Challenger",
+    4: "Sovereign"
+  }
   
+  const getHeroNameById = (heroId) => {
+    const hero = championsData.champions_data.find((champion) => champion.heroId === Number(heroId));
+    return hero ? hero.name : "Unknown";
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -28,8 +43,12 @@ function App() {
         }
         const data = await response.json();
         setHeroData(data.data); 
-        // HeroData[(rank??)][position]
-        console.log(heroData);
+        // HeroData[(rank)][position]
+        //console.log(heroData);
+        const lastModified = response.headers.get('Last-Modified');
+        const date = response.headers.get('Date');
+        // console.log(lastModified)
+        // console.log(date)
       } catch (error) {
         setError(error); 
       } finally {
@@ -38,6 +57,7 @@ function App() {
     };
 
     fetchData();
+    console.log(championsData)
   }, []);
 
   if (isLoading) {
@@ -52,60 +72,87 @@ function App() {
 
   return (
     <>
+    <div className="ranks">
+        <button 
+          className={rankBracket === 1 ? "selected" : ""}
+          onClick={() => setRankBracket(1)}>
+          Diamond
+        </button>
+        <button 
+          className={rankBracket === 2 ? "selected" : ""}
+          onClick={() => setRankBracket(2)}>
+          Master
+        </button>
+        <button 
+          className={rankBracket === 3 ? "selected" : ""}
+          onClick={() => setRankBracket(3)}>
+          Challenger
+        </button>
+        <button 
+          className={rankBracket === 4 ? "selected" : ""}
+          onClick={() => setRankBracket(4)}>
+          Sovereign
+        </button>
+        
+      </div>
       <div className="roles">
-        <button onClick={() => setRole("Baron")}>
+        <button 
+          className={role === 2 ? "selected" : ""}
+          onClick={() => setRole(2)}>
           Baron
         </button>
-        <button onClick={() => setRole("Jungle")}>
+        <button 
+          className={role === 5 ? "selected" : ""}
+          onClick={() => setRole(5)}>
           Jungle
         </button>
-        <button onClick={() => setRole("Mid")}>
+        <button 
+          className={role === 1 ? "selected" : ""}
+          onClick={() => setRole(1)}>
           Mid
         </button>
-        <button onClick={() => setRole("Carry")}>
+        <button 
+          className={role === 3 ? "selected" : ""}
+          onClick={() => setRole(3)}>
           Carry
         </button>
-        <button onClick={() => setRole("Support")}>
+        <button 
+          className={role === 4 ? "selected" : ""}
+          onClick={() => setRole(4)}>
           Support
         </button>
       </div>
-      Role is {role}
     
-      <table>
+      <table style={{ width: '1000px' }}>
+        <thead>
+          <tr className="tableHeader">
+            <th style={{ width: '5em' }}>Rank</th>
+            <th style={{ width: '15em' }}>Hero</th>
+            <th style={{ width: '10em' }}>Position</th>
+            <th style={{ width: '8em' }}>Winrate</th>
+            <th style={{ width: '8em' }}>Pickrate</th>
+            <th style={{ width: '8em' }}>Banrate</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          {heroData && (
+            Object.values(heroData[rankBracket][role]).map((hero, index) => (
+              <tr key={hero.hero_id}>
+                <td>{index + 1}</td>
+                <td style={{ wordBreak: 'break-all' }}>{getHeroNameById(hero.hero_id)}</td>  {/* Assuming hero_name or fallback to hero_id */}
+                <td>{lanes[role]}</td>  
+                <td>{hero.win_rate_percent}%</td>
+                <td>{hero.appear_rate_percent}%</td>
+                <td>{hero.forbid_rate_percent}%</td>
+              </tr>
+            ))
+          )}
+        </tbody>
 
-        <tr className="tableHeader">
-          <th>Hero</th>
-          <th>Number</th>
-          <th>Position</th>
-          <th>Winrate</th>
-          <th>Banrate</th>
-        </tr>
-
-        <tr>
-          <td>Sion</td>
-          <td>1</td>
-          <td>Baron</td>
-          <td>100%</td>
-          <td>0%</td>
-        </tr>
       
       </table>
 
-      <div>
-      {heroData && ( 
-        <ul>
-
-          {Object.values(heroData[0][2]).map(hero => (
-            <li key={hero.id}>
-              <h2>{hero.hero_id}</h2> 
-              <p>Win Rate: {hero.win_rate_percent}%</p> 
-              <p>Pick Rate: {hero.appear_rate_percent}%</p>
-              
-            </li>
-          ))}
-        </ul>
-      )}
-      </div>  
       <div className="logos">
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />

@@ -46,6 +46,16 @@ table {
 .roles {
   padding: 2em;
 }
-.roles button {
+.roles button, .ranks button{
   margin-right:1em;
+}
+button.selected {
+  background-color: #4CAF50;
+  color: white;
+  border: 2px solid #4CAF50;
+}
+
+.table-container {
+  overflow-x: auto;
+  min-height: 300px; 
 }

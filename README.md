@@ -1,11 +1,6 @@
 # Wild Rift Winrates
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Just a lil project I'm doing to learn React
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-Thanks to Summerset94 for the champion data!
-https://github.com/Summerset94/wr-database  
+Thanks to Summerset94 for the champion images and hero Id data!
+https://github.com/Summerset94/wr-database/

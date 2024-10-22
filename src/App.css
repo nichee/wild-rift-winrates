@@ -23,9 +23,37 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Basic table styles */
 table {
-  width: 800px;
+  width: 100%;
+  border-collapse: collapse; /* Remove space between table cells */
+  margin-top: 20px; /* Add some space above the table */
 }
+
+/* Table header styles */
+th {
+  background-color: darkgray; /* Light grey background for header */
+  color: #333; /* Dark text color */
+  padding: 10px; /* Add some padding inside table header cells */
+  text-align: left; /* Align text to the left */
+  border-bottom: 2px solid #ddd; /* Bottom border for header cells */
+}
+
+/* Table row styles */
+td {
+  padding: 10px; /* Padding inside table cells */
+  border-bottom: 1px solid #ddd; /* Bottom border for table cells */
+  text-align: left;
+  margin-left: 3em;
+}
+
+/* Responsive table */
+.table-container {
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
+  min-height: 100px; /* Minimum height for the table container */
+}
+
+
 
 
 @keyframes logo-spin {
@@ -43,6 +71,14 @@ table {
   }
 }
 
+.buttons{
+  display: flex;
+  flex-direction: column;
+  /* min-height: 100vh; */
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
 .roles {
   padding: 2em;
 }
@@ -55,7 +91,3 @@ button.selected {
   border: 2px solid #4CAF50;
 }
 
-.table-container {
-  overflow-x: auto;
-  min-height: 300px; 
-}

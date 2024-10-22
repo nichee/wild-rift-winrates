@@ -46,8 +46,6 @@ function App() {
         }
         const data = await response.json();
         setHeroData(data.data); 
-        // HeroData[(rank)][position]
-        //console.log(heroData);
         const lastModified = response.headers.get('Last-Modified');
         const date = response.headers.get('Date');
         // console.log(lastModified)
@@ -75,87 +73,97 @@ function App() {
 
   return (
     <>
-    <div className="ranks">
-        <button 
-          className={rankBracket === 1 ? "selected" : ""}
-          onClick={() => setRankBracket(1)}>
-          Diamond
-        </button>
-        <button 
-          className={rankBracket === 2 ? "selected" : ""}
-          onClick={() => setRankBracket(2)}>
-          Master
-        </button>
-        <button 
-          className={rankBracket === 3 ? "selected" : ""}
-          onClick={() => setRankBracket(3)}>
-          Challenger
-        </button>
-        <button 
-          className={rankBracket === 4 ? "selected" : ""}
-          onClick={() => setRankBracket(4)}>
-          Sovereign
-        </button>
-        
-      </div>
-      <div className="roles">
-        <button 
-          className={role === 2 ? "selected" : ""}
-          onClick={() => setRole(2)}>
-          Baron
-        </button>
-        <button 
-          className={role === 5 ? "selected" : ""}
-          onClick={() => setRole(5)}>
-          Jungle
-        </button>
-        <button 
-          className={role === 1 ? "selected" : ""}
-          onClick={() => setRole(1)}>
-          Mid
-        </button>
-        <button 
-          className={role === 3 ? "selected" : ""}
-          onClick={() => setRole(3)}>
-          Carry
-        </button>
-        <button 
-          className={role === 4 ? "selected" : ""}
-          onClick={() => setRole(4)}>
-          Support
-        </button>
-      </div>
-    
-      <table style={{ width: '1000px' }}>
-        <thead>
-          <tr className="tableHeader">
-            <th style={{ width: '3em' }}>Rank</th>
-            <th style={{ width: '3em' }}></th>
-            <th style={{ width: '5em'}}>Champion</th>
-            <th style={{ width: '5em' }}>Winrate</th>
-            <th style={{ width: '5em' }}>Pickrate</th>
-            <th style={{ width: '5em' }}>Banrate</th>
-          </tr>
-        </thead>
-        
-        <tbody>
-          {heroData && (
-            Object.values(heroData[rankBracket][role]).map((hero, index) => ( 
-              <tr key={hero.hero_id}>
-                <td>{index + 1}</td>
-                <td>{getHeroIconById(hero.hero_id)}</td>
-                <td style={{textAlign: 'left', marginLeft: '3em'}}>{getHeroNameById(hero.hero_id)}</td>
-                <td>{hero.win_rate_percent}%</td>
-                <td>{hero.appear_rate_percent}%</td>
-                <td>{hero.forbid_rate_percent}%</td>
+    <div className="container">
+      <div className="buttons">
+        <div className="ranks">
+            <button 
+              className={rankBracket === 1 ? "selected" : ""}
+              onClick={() => setRankBracket(1)}>
+              Diamond
+            </button>
+            <button 
+              className={rankBracket === 2 ? "selected" : ""}
+              onClick={() => setRankBracket(2)}>
+              Master
+            </button>
+            <button 
+              className={rankBracket === 3 ? "selected" : ""}
+              onClick={() => setRankBracket(3)}>
+              Challenger
+            </button>
+            <button 
+              className={rankBracket === 4 ? "selected" : ""}
+              onClick={() => setRankBracket(4)}>
+              Sovereign
+            </button>
+            
+          </div>
+          <div className="roles">
+            <button 
+              className={role === 2 ? "selected" : ""}
+              onClick={() => setRole(2)}>
+              Baron
+            </button>
+            <button 
+              className={role === 5 ? "selected" : ""}
+              onClick={() => setRole(5)}>
+              Jungle
+            </button>
+            <button 
+              className={role === 1 ? "selected" : ""}
+              onClick={() => setRole(1)}>
+              Mid
+            </button>
+            <button 
+              className={role === 3 ? "selected" : ""}
+              onClick={() => setRole(3)}>
+              Carry
+            </button>
+            <button 
+              className={role === 4 ? "selected" : ""}
+              onClick={() => setRole(4)}>
+              Support
+            </button>
+          </div>
+        </div>
+
+        <table style={{ width: '1000px' }}>
+          <thead>
+            <tr className="tableHeader">
+              <th style={{ width: '1em' }}>Rank</th>
+              <th style={{ width: '2em' }}></th>
+              <th style={{ width: '4em'}}>Champion</th>
+              <th style={{ width: '5em' }}>Winrate</th>
+              <th style={{ width: '5em' }}>Pickrate</th>
+              <th style={{ width: '5em' }}>Banrate</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            {heroData && 
+            rankBracket in heroData &&
+            role in heroData[rankBracket] &&(
+              Object.values(heroData[rankBracket][role]).map((hero, index) => ( 
+                <tr key={hero.hero_id}>
+                  <td>{index + 1}</td>
+                  <td>{getHeroIconById(hero.hero_id)}</td>
+                  <td style={{textAlign: 'left', marginLeft: '3em'}}>{getHeroNameById(hero.hero_id)}</td>
+                  <td>{hero.win_rate_percent}%</td>
+                  <td>{hero.appear_rate_percent}%</td>
+                  <td>{hero.forbid_rate_percent}%</td>
+                </tr>
+              ))
+            )}
+            {!heroData?.[rankBracket]?.[role] && (
+              <tr>
+                <td colSpan="6">No one in this rank yet :) </td>
               </tr>
-            ))
-          )}
-        </tbody>
+            )}
+          </tbody>
 
-      
-      </table>
-
+        
+        </table>
+      </div>
       <div className="logos">
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />

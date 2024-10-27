@@ -38,8 +38,10 @@ function App() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
+        const apiUrl = '/apivercel/go/lgame_battle_info/hero_rank_list_v2'
+        console.log('Fetching data from:', apiUrl);
+        const response = await fetch(apiUrl);
         
-        const response = await fetch('/apivercel/go/lgame_battle_info/hero_rank_list_v2');
         // const response = await fetch('https://mlol.qt.qq.com/go/lgame_battle_info/hero_rank_list_v2', {mode:'cors'});
         // console.log("test")
         // console.log('API URL:', process.env.NEXT_PUBLIC_RIOT_CHINA_API);

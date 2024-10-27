@@ -38,8 +38,8 @@ function App() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('/api/go/lgame_battle_info/hero_rank_list_v2');
-        // const response = await fetch('https://mlol.qt.qq.com/go/lgame_battle_info/hero_rank_list_v2', {mode:'cors'});
+        // const response = await fetch('/api/go/lgame_battle_info/hero_rank_list_v2');
+        const response = await fetch('https://mlol.qt.qq.com/go/lgame_battle_info/hero_rank_list_v2', {mode:'cors'});
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
